@@ -1,0 +1,23 @@
+.log {
+	width:650px;
+	height:600px;
+	overflow:auto;
+	font-size: 14;
+	border:1px solid silver;
+}
+.log .log_message_debug{
+	background-color:RGB(95,200,158);
+}
+.log .log_value_debug{
+	background-color:RGB(78,245,255);
+	padding-left:60px;
+	padding-bottom:4px;
+}
+.log .log_message_error{
+	background-color:RGB(230,1,1);
+}
+.log .log_value_error{
+	background-color:RGB(250,152,153);
+	padding-left:60px;
+	padding-bottom:4px;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Test EPlayer</title>
+		<script type="text/javascript" src="http://sharera.kmip.net:8012/emedia/public/js/common/EPlayer.pack.js"></script>
+	</head>
+</body>
+<div id="EPlayer">
+</div>
+<script>
+	$(function(){
+		var eplayer = new EPlayer();
+		eplayer.config['site_base_url'] = 'http://sharera.kmip.net:8012/emedia/',
+		eplayer.config['container']     = 'EPlayer';
+		eplayer.config['skin']          = 'pink';
+		eplayer.run();
+
+		eplayer.open(95313, 1, 404);
+	});
+</script>
+
+	</body>
+</html>
+

@@ -1,0 +1,85 @@
+<html>
+	<body>
+	<script>
+	 var nums = [7904.14, 8724.27, 9837.65, 11531.2, 51960, 10156.06, 16041.32, 9288.94, 23836.56, 2424.33, 4101, 71128.27, 13435.89, 7196.37, 4344.23, 18022, 9003.19, 7998.71, 2657.50, 8105.93, 9719.81, 8885.47, 9003.19, 2657.50, 6647.56, 9719.81, 2784.33, 8105.93, 2768.87, 8399.54, 7998.71];
+
+
+	function exist(value, nums)
+	{
+		for ( var i = 0; i < nums.length; i ++)
+		{
+			if (nums[i] == value) return true;
+		}
+		return false;
+	}
+
+	function getTotal(aTotal)
+	{
+		var total = 0;
+		for ( var i = 0; i < aTotal.length; i ++)
+		{
+			total += aTotal[i];
+		}
+		return total;
+	}
+
+	function findNums(aNums, aTotal, compare, offset)
+	{
+		// calculate total:
+		var total = getTotal(aTotal);
+		//printResult('total is : ' +  total + ' and length is: ' + aTotal.length);
+
+		for (var i = 0; i < aNums.length; i ++)
+		{
+			var num = aNums[i];
+
+			if (exist(num, aTotal)) continue;
+
+			if (num + total - compare > offset)
+			{
+				//printResult('break, result is: ' + (num + total));
+				aTotal.pop();
+				return aTotal;
+			}
+			else if (Math.abs(num + total - compare) <= offset)
+			{
+				//printResult('push1 ' + num);
+				aTotal.push(num);
+				printResult('<span style="color:red;"><b>result is:</b></span> ', aTotal);
+				printResult('Final total is: '  + getTotal(aTotal));
+				return aTotal;
+			}
+			else
+			{
+				//aTotal.pop();
+				//printResult('push2 ' + num);
+				aTotal.push(num);
+				findNums(aNums, aTotal, compare, offset);
+			}
+		}
+		printResult('end');
+	}
+
+	function printResult(str, aTotal)
+	{
+		aTotal = aTotal || [];
+		document.write(str + aTotal.join(', '));
+		document.write('<br/>');
+	}
+
+	nums.sort(function(a, b){
+		return parseInt(a) > parseInt(b);
+	});
+
+	printResult('nums: ', nums);
+
+	//var compare = 54384;
+	var compare = 75561;
+	var compare = 5426;
+	var compare = 6885;
+	var compare = 71128;
+	var compare = 21280;
+	var result = findNums(nums, [], compare, 100);
+	</script>
+</body>
+</html>

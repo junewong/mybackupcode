@@ -1,0 +1,29 @@
+<html>
+	<head></head>
+	<body>
+		<button id="btn1">show1</button>
+		<button id="btn2">show2</button>
+		<script>
+			(function(){
+				var a = 2;
+				function show1()
+				{
+					alert('1, a is ' + a);
+				}
+				var o = document.getElementById('btn1');
+				alert(o);///
+				o.addEventListener('click', show1, false);
+			})();
+			(function(){
+				var a = 4;
+				function show1()
+				{
+					alert('2, a is ' + a);
+				}
+				var o = document.getElementById('btn2');
+				alert(o);///
+				o.addEventListener('click', show1, false);
+			})();
+		</script>
+	</body>
+</html>

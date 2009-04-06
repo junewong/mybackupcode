@@ -1,0 +1,128 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+ <head>
+  <title> new document </title>
+  <meta name="generator" content="editplus">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <style type="text/css">
+	  .log {
+		  width:450px;
+		  height:600px;
+		  overflow:auto;
+		  font-size: 14;
+		  border:1px solid silver;
+	  }
+	  .log .log_message{
+		  background-color:RGB(95,200,158);
+	  }
+	  .log .log_value{
+		  background-color:RGB(78,245,255);
+		  padding-left:60px;
+		  padding-bottom:4px;
+	  }
+  </style>
+  <script src="log.js"></script>
+  <script src="file:///G:/ิดย๋/javascript/jquery-1.3.js"></script>
+  <script>
+	  window.onload = function(){
+	  //$(document).ready(function(){
+		  //debug string:
+		  log.debug('this is string !');
+
+		  //debug number:
+		  for (var i = 0; i < 10; i ++)
+		  {
+			  log.debug('now i is : ', i);
+		  }
+
+		  //debug object:
+		  var obj = {
+			  name: 'wong',
+			  age: 25,
+			  male: true,
+			  card: {blank: 'CMM', id: '123456'},
+			  pet: ['cat','dog','fish'],
+			  move :function(){return 'move!';}
+		  };
+		  log.debug('test object : ' , obj);
+
+		  //debug array:
+		  var aTest = ['wer', 'sffsf', '234234', 'sdfw23'];
+		  log.debug('test array: ', aTest);
+
+		  log.debug('document: ', document);
+
+		  log.debug('sreen: ', window.screen);
+
+		  log.debug('navigator: ', window.navigator);
+
+		  log.debug('another string: ', 'here is a string');
+
+		  /*
+		  $('#test div').each(function(){
+			  var name = $(this);
+		  });
+		  */
+
+	  //});
+	  }
+	  
+  </script>
+ </head>
+ <body>
+	 <div id ="test">
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+		 <div>test1</div>
+	 </div>
+ </body>
+</html>
