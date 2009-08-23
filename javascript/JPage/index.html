@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../../javascript/log/log.css" type="text/css" />
+		<script src="../../javascript/log/log.js" type="text/javascript"></script> 
+		<script src="JPage/js/core/JPage.js" type="text/javascript"></script>
+		<script>
+			window.onload = function()
+			{
+				var oPage = new JPage();
+				log.debug(oPage);
+
+				var options = {};
+				options['dataSrc'] = 'data1.html';
+				options['container'] = 'container';
+
+				// start:
+				oPage.run(options);
+			};
+		</script>
+	</head>
+	<body>
+		<div id="container">
+		</div>
+	</body>
+</html>
