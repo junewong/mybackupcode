@@ -42,6 +42,8 @@
 		{
 			'data_dir' : 'data/',
 			'template_dir' : 'JPage/templates/',
+			'js_dir' : 'JPage/js/',
+			'css_dir' : 'JPage/css/',
 			'templates_container' : '__templates'
 		};
 	};
@@ -91,6 +93,25 @@
 						value = match[4];
 					}
 					log.debug('match key: ', match);
+
+					// change the "\n" as "<br/>":
+					/*
+					if (typeof value == 'object')
+					{
+						for ( var i in value)
+						{
+							if (typeof value[i] == 'string')
+							{
+								value[i] = value[i].replace(/\n/g, "<br\/>");
+							}
+						}
+					}
+					else if (typeof value == 'string')
+					{
+						value = value.replace(/\n/g, "<br\n>");
+					}
+					*/
+
 					result[key] = value;
 				}
 						
@@ -147,7 +168,7 @@
 				{
 					var script = document.createElement('script');
 					script.type = "text/javascript";
-					script.src = scripts[i];
+					script.src = this.config['js_dir'] + scripts[i];
 					head.appendChild(script);
 				}
 			}
@@ -163,7 +184,7 @@
 					var link = document.createElement('link');
 					link.type = "text/css";
 					link.rel = "stylesheet";
-					link.href = allCss[i];
+					link.href = this.config['css_dir'] + allCss[i];
 					head.appendChild(link);
 				}
 				head.appendChild(link);
@@ -246,7 +267,7 @@
 			var _self = this;
 
 			this.options = options || {};
-			log.info('start to run! and options ara: ', this.options);
+			log.info('start to run! and options are: ', this.options);
 
 			this.init();
 
@@ -289,6 +310,8 @@
 			// fix charaters, and convert all lines into one line:
 			this.orginalHtml = source.innerHTML.replace(/^\s+/g, '') 
 												.replace(/(?:\n|\r)/g, '')
+												.replace(/%5B%5B/g, "[[")
+												.replace(/%5D%5D/g, "]]")
 												.replace(/"/g, '\\"')
 												.replace(/'/g, "\\'");
 			// fix the attribute 'src' of <img> tag:
@@ -385,12 +408,13 @@
 				var variables;
 				if (variables = /^\[\[\s*(\w+)((?:\[\w+\])?(?:\.\w+.*)?)?\s*\]\]$/.exec(match)) 
 				{
-					return "' + this.getValue('" + variables[1] + "')" + variables[2] + " + '";
+					var attr = variables[2] || '';
+					return "' + this.getValue('" + variables[1] + "')" + attr + " + '";
 				}
 			});
 
 			html = '(\'' + html + '\')';
-			//log.debug('paser template: ', html);
+			log.debug('paser template: ', html);
 			return eval(html);
 
 		}
@@ -399,6 +423,18 @@
 
 	/**
 	 * The loader for any data for using iframe;
+	 *
+	 * e.g. 1 :
+	 * 		var oData = new Data('http://...', function(){ do if success ... });
+	 *
+	 * e.g. 2 :
+	 * 		var oData = new Data({
+	 * 			url : 'http://...',
+	 * 			loading: function(){},
+	 * 			success : function(){},
+	 * 			error: function(){}
+	 * 		});
+	 *
 	 * 
 	 * @param options $options 
 	 * @return void
@@ -408,9 +444,10 @@
 	{
 		var options = typeof arguments[0] == 'object' ?  arguments[0] : {}
 		
+		// if 1st arguments is url, 2nd is success callback:
 		if (typeof arguments[0] == 'string')
 		{
-			options = arguments[0];
+			options['url'] = arguments[0];
 			options['success'] = arguments[1];
 		}
 

@@ -1,15 +1,15 @@
 <div id="tpl_article">
-	<h3>[[title]]</h3>
-	<h5>[[author]]</h5>
-	<div>
+	<h3 class="title">[[title]]</h3>
+	<h5 class="author">Author : [[author]]</h5>
+	<div class="desc">
 		[[desc]]
 	</div>
 	<div>
 		<div> urls:</div>
-		<div>
+		<ul class="list_urls">
 			[[foreach urls as url]]
-			<div><a href="[[url]]">[[url]]</a><div>
+			<li><a href="[[url]]">[[url]]</a></li>
 			[[/foreach]]
-		</div>
+		</ul>
 	</div>
 </div>
