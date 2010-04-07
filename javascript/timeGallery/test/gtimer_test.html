@@ -1,0 +1,31 @@
+<script type="text/javascript" src="../js/TimeGallery.js"></script>
+<h2>Test class GTimer:</h2>
+<div id="timer">
+	0
+</div>
+<div id="gtimer">
+	0
+</div>
+<script>
+	// seconde timer:
+	var timer = document.getElementById('timer');
+	setInterval(function() {
+		var d = new Date();
+		var msec = d.getTime();
+		var t = Math.floor(msec/1000);
+		var sec = d.getSeconds();
+		var minutes = d.getMinutes();
+		var str = "time: " + msec + " seconds: " + sec + " t: " + t + " minutes:"  + minutes + " mod:" + (t % (minutes * 60));
+		timer.innerHTML = str;
+	}, 1000);
+
+	// test GTimer:
+	var n = 0;
+	var div = document.getElementById('gtimer');
+	var gtimer = new GTimer(1);
+	gtimer.add(function() {
+		div.innerHTML = (++n);
+	});
+</script>
+<button onclick="gtimer.start();">start</button>
+<button onclick="gtimer.stop();">stop</button>

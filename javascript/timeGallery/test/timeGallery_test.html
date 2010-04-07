@@ -1,0 +1,40 @@
+<script type="text/javascript" src="../js/TimeGallery.js"></script>
+<h2>Test class TimeGallery:</h2>
+<h4>Change picture each 1 minute:</h4>
+<div id="timer">
+	0
+</div>
+<div id="state">
+</div>
+<div>
+	<img id="image" src=""/>
+</div>
+<script>
+	var timer = document.getElementById('timer');
+	setInterval(function() {
+		var d = new Date();
+		var sec = d.getSeconds();
+		var minutes = d.getMinutes();
+		var hours = d.getHours();
+		var str = hours + ":" + minutes + ":" + sec;
+		timer.innerHTML = str;
+	}, 1000);
+
+	var div1 = document.getElementById('div1');
+	var state = document.getElementById('state');
+
+	var gallery = new TimeGallery({
+		id : 'image',
+		images_list : '../data/pictures.txt',
+		timeout : 1,
+		preload : true,
+		onLoading : function() {
+			state.innerHTML = 'loading ...';
+		},
+		onLoad : function() {
+			state.innerHTML = 'Done!';
+		}
+	});
+	gallery.run();
+
+</script>

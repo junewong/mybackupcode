@@ -1,0 +1,43 @@
+<script type="text/javascript" src="../js/TimeGallery.js"></script>
+<h2>Test class ImageManager:</h2>
+<h4>find the time from list:</h4>
+<button onclick="show()">show</button>
+<input id="timeText" type="text" value="00:00"/>
+<div id="state">
+</div>
+<div id="div1">
+</div>
+<div>
+	<img id="image" src=""/>
+</div>
+<script>
+
+	var div1 = document.getElementById('div1');
+	var state = document.getElementById('state');
+
+	var imageList = new ImageList();
+	imageList.load('../data/pictures.txt');
+
+	var manager = new ImageManager('image', imageList);
+	manager.onLoading = function() {
+		state.innerHTML = 'loading ...';
+	};
+	manager.onLoad = function() {
+		state.innerHTML = 'Done!';
+	}
+
+	function show() {
+		var value = document.getElementById('timeText').value;
+		var times = value.split(':');
+		var d = new Date();
+		d.setHours(times[0]);
+		d.setMinutes(times[1]);
+		var result = manager.show(d);
+		if (result) {
+			div1.innerHTML = 'Find picture! ' + d;
+		} else {
+			div1.innerHTML = 'No picture! ' + d;
+		}
+	}
+
+</script>

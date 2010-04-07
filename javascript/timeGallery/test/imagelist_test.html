@@ -1,0 +1,42 @@
+<script type="text/javascript" src="../js/TimeGallery.js"></script>
+<h2>Test class ImageList:</h2>
+<h4>image list :</h4>
+<button onclick="next()">next</button>
+<button onclick="prev()">prev</button>
+<button onclick="get()">get</button>
+<input id="timeText" type="text" value="00:00"/>
+<br/>
+<script>
+	var imageList = new ImageList();
+	imageList.load('../data/pictures.txt');
+
+	var list = imageList.getList();
+	for (var i in list)
+	{
+		var data = list[i];
+		document.write("<b>" + data.time + "</b><br/>");
+		document.write("<img src='" + data.url + "'/><br/><br/>");
+	}
+
+	function next() {
+		var pic = imageList.next();
+		if (!pic) {
+			alert('No picture!');
+		} else {
+			alert(pic.time + " --> " + pic.url);
+		}
+	}
+	function prev() {
+		var pic = imageList.prev();
+		if (!pic) {
+			alert('No picture!');
+		} else {
+			alert(pic.time + " --> " + pic.url);
+		}
+	}
+	function get() {
+		var value = document.getElementById('timeText').value;
+		var data = imageList.get(value);
+		alert("get '" + value + "' : " +  data.time + " --> " + data.url);
+	}
+</script>

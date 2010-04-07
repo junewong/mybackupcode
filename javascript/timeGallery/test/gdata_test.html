@@ -1,0 +1,13 @@
+<script type="text/javascript" src="../js/TimeGallery.js"></script>
+<h2>Test class GData:</h2>
+<h4>return the content of file:</h4>
+<div id="div1">
+</div>
+<script>
+	var div = document.getElementById('div1');
+	div.innerHTML = 'ready...';
+	var oData = new GData();
+	oData.load('../data/pictures.txt');
+	var text = oData.getResult();
+	div.innerHTML = text;
+</script>
