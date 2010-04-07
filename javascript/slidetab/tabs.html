@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title></title>
+  <style type="text/css" title="Amaya theme">
+.cell {
+	width: 400px;
+	height: 200px;
+}
+.panel {
+	width : 400px;
+	margin-top : 0px;	
+}
+.box {
+	width : 400px;
+	height: 200px;
+	overflow: hidden;
+
+}
+  </style>
+	<script>
+		function move(offset) {
+			var panel = document.getElementById('panel');
+			var t = panel.style.marginTop || 0;
+			var result = (parseInt(t) + offset) + "px";
+			panel.style.marginTop = result;
+		}
+		function slide(offset) {
+			var panel = document.getElementById('panel');
+			var from = parseInt(panel.style.marginTop) || 0;
+			var to = (parseInt(from) + offset);
+			var step = 20;
+			var sign = offset < 0 ? -1 : 1;
+			step = step * sign;
+			//alert(from + " | " + to + " | " + step );///
+			var tid = setInterval(function() {
+				if (from == to) {
+					clearInterval(tid);
+				}
+				if (Math.abs(to - from) < Math.abs(step)) {
+					step = to - from;
+				}
+				move(step);
+				from += step;
+			}, 25);
+		
+		}
+		function up() {
+			slide(-200);
+		}
+		function down() {
+			slide(200);
+		}
+	</script>
+</head>
+
+<body>
+	<div class="box" style="border: solid 4px Black;">
+		<div id="panel" class="panel">
+			<div class="cell" style="background-color:#1e90ff">
+				<img src="http://farm4.static.flickr.com/3302/3407624098_518a0977fd.jpg" width="400" height="200"/>
+			</div>
+			<div class="cell" style="background-color:#90ee90">
+				<img src="http://farm4.static.flickr.com/3651/3409114205_9bd3fdeac3.jpg" width="400" height="200"/>
+			</div>
+			<div class="cell" style="background-color:#ffa500">
+				<img src="http://farm4.static.flickr.com/3324/3413531137_a566270eb6.jpg" width="400" height="200"/>
+			</div>
+		</div>
+	</div>
+	<div class="control">
+		<button onclick="up();">up</button>
+		<button onclick="down();">down</button>
+	</div>
+</body>
+</html>
