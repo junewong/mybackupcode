@@ -1,0 +1,25 @@
+#!/bin/bash
+total=$1
+num=$2
+if [ $total -lt 1 ];then
+	echo "Please enter total number!";
+	exit;
+fi
+
+if [ $num = "" ]; then
+	echo "Please enter the number!";
+	exit;
+fi
+
+realNum=`echo $num | sed 's/^[^0-9]\+//g' | grep -o '[0-9]\+'`
+len=`expr \` echo $realNum |wc -c \` - 1`;
+offset=`expr $total - $len`
+finalNum=$realNum
+while [ $offset -gt 0 ];
+do
+	offset=`expr $offset - 1`
+	finalNum="0"$finalNum
+done
+
+result=`echo $num |sed "s/^\([^0-9]*\)$realNum/\1$finalNum/"`
+echo $result

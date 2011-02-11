@@ -1,0 +1,24 @@
+#!/usr/local/bin/php
+<?php
+ini_set('error_reporting', 'E_ERROR');
+
+$start = intval($argv[1]);
+$end = intval($argv[2]);
+$step = intval($argv[3]);
+
+if (!$end) {
+	$end = $argv[1];
+	$start = 1;
+}
+
+if (!$step) {
+	$step = 1;
+}
+
+for ($i=$start; $i < $end; $i+=$step)
+{
+	echo $i . ' ';
+}	
+
+
+?>
