@@ -1,0 +1,2 @@
+#!/bin/bash
+time mplayer $1 -ss $2 -noframedrop -nosound -vo jpeg -frames $3 

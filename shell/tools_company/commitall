@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# add directory:
+cvs up  |grep "^\? " |cut -d' ' -f 2 |xargs  file |grep "directory" |cut -d: -f 1 |xargs cvs add
+
+# add binary file:
+#if [ $? = 0 ]; then
+	#find . -type f |grep -v "CVS" |xargs file |grep -v "\<text\>"  |cut -d: -f 1|xargs cvs add -kb 
+	cvs up  |grep "^\? " |cut -d' ' -f 2 |xargs file |grep -v "\<text\>"  |cut -d: -f 1 |xargs cvs add -kb 
+#fi
+
+# add text file:
+if [ $? = 0 ]; then
+	#find . -type f |grep -v "CVS" |xargs file |grep "\<text\>"  |cut -d: -f 1|xargs cvs add -kb 
+	cvs up  |grep "^\? " |cut -d' ' -f 2 |xargs file |grep "\<text\>"  |cut -d: -f 1 |xargs cvs add -kb 
+fi
+
+# commit added or modified file:
+if [ $? = 0 ]; then
+	cvs commit `cvs up -d . |grep -E "^[AM] " |sed 's/^[AM] //g'`
+fi

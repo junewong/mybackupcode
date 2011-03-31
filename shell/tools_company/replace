@@ -1,0 +1,2 @@
+#!/bin/bash
+find $1 -exec grep "$2" -l {} \; | xargs perl -p -i -e s/$2/$3/g

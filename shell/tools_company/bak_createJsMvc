@@ -1,0 +1,49 @@
+#!/bin/bash
+mode=$1;
+if [ $mode = "-v" ];then
+	classType="IView";
+	action="regView";
+elif [ $mode = '-c' ];then
+	classType="ICtrl";
+	action="regCtrl";
+elif [ $mode = 'm' ];then
+	classType="IModel";
+	action="regModel";
+fi
+
+if [ $classType = '' ];then
+	echo "Please enter the type of class, can be -v , -c or -m."
+	exit 0;
+fi
+
+i=0;
+for className in $*
+do
+	$i++;
+	if [ $i > 1 ];then
+		echo \/\*\*
+		echo  \* init all event of play list. 
+		echo  \*\/
+		echo Apps.extend\( $mode, {
+
+		echo 	_name : \'$className\',
+
+		echo 	load : function\(\)
+		echo 	{   
+		echo 		this.$action\(this._name\)\;
+		echo 	},  
+
+		echo 	run : function\(\)
+		echo 	{   
+		echo 	},
+
+		echo 	init : function\(\)
+		echo 	{   
+		echo 	},  
+
+		echo 	unload : function\(\)
+		echo 	{   
+		echo 	}
+		echo }\)\;
+	fi
+done

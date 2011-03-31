@@ -1,0 +1,29 @@
+#/bin/bash
+
+#-----------------------------------
+# kill the process by user in mysql:
+#-----------------------------------
+
+user=$1
+password=$2
+db=$3
+tagetUser=$4
+
+usage() {
+	echo "Wrong! should be 4 params: "
+	echo " 	$0 mysql_user mysql_password mysql_databse user_process_for_kill";
+}
+
+if [ $# -lt 4 ];then
+	usage;
+	exit;
+fi
+
+# make "kill xxx;" commands list:
+cmd=`mysql -u $user -p$password -D $db -e "show processlist;" | grep -v "show processlist"| cut -f 1,2 |grep $tagetUser |cut -f 1 |sed -e "s/^/kill /g" -e "s/$/;/g"`
+
+echo $cmd |sed "s/; /&\n/g" 
+
+# execute the commands:
+mysql -u $user -p$password -D $db -e "$cmd"
+

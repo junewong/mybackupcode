@@ -1,0 +1,2 @@
+#!/bin/bash
+time ffmpeg -y -i "$1" -f image2  -vframes 1 -ac 1 -ab 2 -r 1 "$1.ffmpeg.jpg" 

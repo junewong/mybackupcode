@@ -1,0 +1,10 @@
+#!/usr/local/bin/php
+<?php
+	$request = $argv[1];
+	if (preg_match("/^http/", $request)) {
+		$content = file_get_contents($request);
+	} else {
+		$content = $request;
+	}
+	print_r(json_decode($content));
+?>

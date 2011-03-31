@@ -1,0 +1,2 @@
+#!/bin/bash
+time ffmpeg -y -i $1 $1"_ffmpeg.flv"  -vcodec flv -b 300 -ab 64 -ar 22050

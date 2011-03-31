@@ -1,0 +1,16 @@
+#!/bin/bash
+if [$2];then
+	start_time=$2
+else
+	start_time=1
+fi
+echo "start time: "$start_time
+
+if [$3]; then
+	n=$3
+else
+	n=2
+fi
+echo "frames is: "$n
+
+mplayer $1 -ss $2 -noframedrop -nosound -vo jpeg -frames $3 

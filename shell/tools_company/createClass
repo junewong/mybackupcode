@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ $# -ne 1 ] ; then
+	echo "You need to type a file name!";
+	exit 1;
+fi
+
+filename=$1".class.php";
+date=`date '+%Y-%m-%d'`;
+
+touch $filename;
+echo '<?php
+
+/**
+ * 
+ * 
+ * @author junewong <junewong@sharera.com>
+ * @date '$date'
+ */
+class '$1'
+{
+	function __construct()
+	{
+	}
+}
+
+?>' > $filename;

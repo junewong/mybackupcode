@@ -1,0 +1,9 @@
+#!/bin/bash
+num=$1
+shift
+cmd=$@
+while [ $num -gt 0 ]
+do
+	eval "$cmd"
+	num=`expr $num - 1`
+done

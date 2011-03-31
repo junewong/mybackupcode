@@ -1,0 +1,4 @@
+#/bin/bash
+
+echo "<?php {$1} ?>" |php
+echo;

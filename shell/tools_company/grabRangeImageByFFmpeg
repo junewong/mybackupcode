@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#
+# grab many images from video:
+# e.g.:
+# 	grabRangeImageByFFmpeg video_iphone_1.mp4 1 60 180
+#
+
+filename=$1;
+shift $1
+
+for i in $*
+do 
+	ffmpeg -y -i  $filename -r 1 -ss $i  -f image2  -vframes 1 "t_$i.jpg";
+done

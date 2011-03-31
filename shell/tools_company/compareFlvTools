@@ -1,0 +1,30 @@
+#!/bin/bash
+echo "###########################################"
+echo "              mplayer"
+echo "###########################################"
+
+convertVideoToFlvByMencoder $1
+
+echo
+echo
+echo
+echo "###########################################"
+echo "              FFmpeg"
+echo "###########################################"
+
+convertVideoToFlvByFFmpeg $1
+
+echo
+echo
+echo
+echo "###########################################"
+echo "              media info"
+echo "###########################################"
+getMediaInfo $1
+
+echo
+echo
+echo "###########################################"
+echo "              show media size"
+echo "###########################################"
+du -a $1*

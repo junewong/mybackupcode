@@ -1,0 +1,22 @@
+#!/bin/bash
+echo "###########################################"
+echo "              mplayer"
+echo "###########################################"
+
+time mencoder "$1" -o "$1_mplayer_largeSize.flv" -of lavf -ovc lavc -oac mp3lame -lavfopts i_certify_that_my_video_stream_does_not_use_b_frames -lavcopts vcodec=flv -vf scale=480:360
+
+echo
+echo
+echo
+echo "###########################################"
+echo "              FFmpeg"
+echo "###########################################"
+
+time ffmpeg -y -i $1  -s 480x360 $1"_ffmpeg_largeSize.flv"
+
+echo
+echo
+echo "###########################################"
+echo "              show media size"
+echo "###########################################"
+du -a $1*

@@ -1,0 +1,2 @@
+#!/bin/bash
+find $1 -exec grep "$2" -H -n --color {} \;
