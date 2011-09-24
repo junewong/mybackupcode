@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo /usr/sbin/tcpdump -A -s0 host 192.168.2.9 and  port 8012
+sudo /usr/sbin/tcpdump -A -s0 host 192.168.2.7 and  port 8012

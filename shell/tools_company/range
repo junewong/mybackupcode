@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/local/bin/php
 <?php
 	$min = $argv[1];
 	$max = $argv[2];
@@ -8,6 +8,6 @@
 		$step = $argv[3];
 	} 
 	$nums = range($min, $max, $step);
-	echo implode(" ", $nums);
+	echo implode("\n", $nums);
 
 ?>
