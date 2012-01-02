@@ -1,0 +1,69 @@
+父，祖－patr(i); part(o); pater
+	["patriarch", "[patri父，祖arch首脑，长]家长；族长"],
+	["patriarchal", "[见上，－al…的]家长的；族长的；家长似的"],
+	["patriot", "[patri祖→祖国，-ot名词字尾，表示人]爱祖国者，爱国主义者"],
+	["patriotic", "〔见上，-otic形容词字尾，…的〕爱国的"],
+	["patriotism", "[见上，-ism主义]爱国主义；爱国心"],
+	["unpatriotic", "〔un-不，见上〕不爱国的"],
+	["patenal", "〔pater父，-n-,-al…的〕父亲的，父系的"],
+	["paternalism", "[见上，-ism表示行为，现象]家长式统治，家长作风"],
+母－matr(i); mater; metro
+	["matriarch", "[matri母→女性，arch首脑，长]女族长；女家长"],
+	["matrimony", "[matri母→婚姻，-mony名词字尾]婚姻，结婚"],
+	["matrimonial", "〔见上，-al…的〕婚姻的，结婚的"],
+	["matron", "〔mart母，-on表示人〕主妇，老妇"],
+	["matronage", "[见上，－age名词字尾]主妇的身份或职责"],
+	["maternal", "[matr母，-n-,-al…的]母亲的，母性的"],
+	["maternity", "[见上，－ity名词字尾]母性的，母性的"],
+	["metropolis", "[metro母，polis城市；母城", "→首城，最大的城]大城市，主要城市，大都会，首府"]
+
+
+Repopulate [re-再，重新，见上]使人民重新居住于…
+Depopulate [de-除去，去掉，popul人民→人口，-ate使…]使, 某地人口减少，减少人口
+Popularity[见上，-ity名词字尾，表示性质]大众性，通俗性
+Popularize[见上，- ize…化，使…](使)大众化，, 使普及，推广
+Popularizer[见上，-er者]普及者，推广者
+Popularization[见上，-ation表示行为]普及，推广，通俗化
+Populace[popul人民→平民，-ace名词字尾]平民，大众
+人民－, ２dem(o)
+	["democracy", "[demo人民，cracy统治；人民统治", "→人民做主→]民主；民主政治，民主政体；民主主义"],
+	["democrat", "[见上，crat主张…统治的人]民主主义者"],
+	["democratism", "[见上，-ism主义]民主主义"],
+	["democratize", "[见上，-ize…化]民主化；使民主化"],
+	["democratic", "[见上，-ic…的]民主的，民主主义的；民主政体的"],
+	["demography", "[demo人民→人数，人口，graphy写，记录→统计]人口统计学"],
+	["demographic", "[见上，-ic…的]人口统计的"],
+	["epidemic", "[epi-在…之间，dem人民，-ic…的；流行于人民之中的", "→]流行的，传染的；流行病，时疫"],
+	["epidemiology", "[见上，-" "io-连接字母，-logy…学]流行病学"],
+	["epidemiologist", "[见上，-logist…学者]流行病学者"],
+	["epidemiological", "[见上，-logical…学的]流行病学的"],
+男－, １andr(o)
+	["androgyne", 
+	["androgynism", 
+男－, ２vir
+	["virile", "[vir男，ile形容词字尾，…的]男的，男性的，男子的，有男子气概的，有男性生殖力的"],
+	["virilism", "[见上，-ism表示现象]男性现象"],
+	["virility", "[见上，-ity表示性质]男子气概，男生殖力，男子的成年"],
+女－, 1gyn(o); gynec(o)
+	["gynecology", "[gyneco妇女，-logy…学]妇科学，妇科"],
+	["gynecologist", "[见上，-ist人]妇科医生"],
+	["gynecian", "[gynec妇女，-ian…的]妇女的，妇人的"],
+女－, 2fem; femin
+	["female", "[fem女，妇女]女性的，妇女的；女子"],
+	["feminine", "[femin女，-ine…的]女性的，妇女的"],
+	["femininity", "[femin女，-ality表示性质]女性，妇女的特性"],
+	["femininity", "[feminine(e)女性的，-ity表示性质]女子的气质，女人气，妇女总称"],
+	["feminism", "[femin女，-ism主义]男女平等主义；[-ism表示行为]争取女权运动"],
+	["femme", "妇女；妻子"]
+
+
+"10": [
+	["anthropology", 
+	["anthropologist", 
+	["anthropogeography", 
+	["anthropomorphous", 
+	["anthroposociology",
+],
+
+
+65．Pro-
