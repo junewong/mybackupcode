@@ -1,10 +1,17 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
-	$request = $argv[1];
-	if (preg_match("/^http/", $request)) {
-		$content = file_get_contents($request);
+	if (count($argv) <= 1) {
+		$content = file_get_contents("php://stdin");
+
 	} else {
-		$content = $request;
+		$request = $argv[1];
+		if (preg_match("/^http/", $request) || !preg_match("/^(\{|\[)/", $request)) {
+			$content = file_get_contents($request);
+		} else {
+			$content = $request;
+		}
+
 	}
+
 	print_r(json_decode($content));
 ?>
