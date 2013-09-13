@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#-----------------------------------------
+# e.g.
+#	rename "m4v$" "mp4" *.m4v
+#
+#-----------------------------------------
+
+if [ $# -lt 3 ]; then
+	echo "ERROR: should have 3 params!"
+	exit
+fi
+
+pattern=$1
+value=$2
+shift;
+shift;
+
+for file in $*
+do
+	newname=`echo $file |gsed "s/$pattern/$value/g"`
+	#echo "rename $file to $newname ..."
+	mv $file $newname;
+done

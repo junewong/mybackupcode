@@ -1,0 +1,7 @@
+#!/bin/bash
+
+filenames=$*
+result=`diff $filenames |awk '{if ($1) {r=1}}; END{ if (r==1)print r;}'`
+if [ "$result" = 1 ]; then
+	echo  $filenames
+fi

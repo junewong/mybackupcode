@@ -1,0 +1,8 @@
+#!/bin/bash
+script="{sum+=\$1};END{print sum};"
+if [ $# -eq 0 ]; then
+	awk "$script" < /dev/stdin 
+else
+	# TODO: could not work ?!
+	for i in $*; do echo $i; done |awk "$script"
+fi

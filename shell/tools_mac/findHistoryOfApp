@@ -1,0 +1,5 @@
+#!/bin/bash
+
+appName=$1
+dir="/Users/june/Library/Preferences/" 
+find  $dir |grep ".*LSSharedFileList\.plist.*" |grep -i "$appName"

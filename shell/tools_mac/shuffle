@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+$str=$argv[1];
+if (!$str) {
+	$str = file_get_contents("php://stdin");
+}
+
+//$array = str_split($str, 3);
+$array = mbStringToArray($str);
+
+shuffle($array);
+echo implode("", $array);
+
+
+function mbStringToArray ($string) {            //把含有中文的字符串转换为数组
+	$strlen = mb_strlen($string);
+	while ($strlen) {
+		$array[] = mb_substr($string,0,1,"utf8");
+		$string = mb_substr($string,1,$strlen,"utf8");
+		$strlen = mb_strlen($string);
+	}
+	return $array;
+}
+
+?>
