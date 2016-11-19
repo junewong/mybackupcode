@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+	$text = file_get_contents("php://stdin");
+	$len = $argv[1];
+	$tail = count($argv) > 2 ?  $argv[2] : "";
+
+	echo mb_strlen( $text, 'utf-8' ) > $len ? mb_substr( $text, 0, $len, 'utf-8' ) . "$tail" : $text;
+
+?>

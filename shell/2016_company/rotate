@@ -1,0 +1,17 @@
+#!/bin/sh
+#ScriptName:rotate
+
+[ $# -ne 1 ] && exit 1
+# if [ ! -s $1 ]
+# then
+#         echo "Usage:rotate datafile"
+#         exit 1
+# fi
+row=`sed -n '$=' $1`
+col=`awk 'NR==1{print NF}' $1`
+awk -v row=$row -v col=$col '{for(i=1;i<=NF;i++)a[NR"-"i]=$i} END{ for(i=1;i<=col;i++){ for(j=1;j<=row;j++) printf("%s ",a[j"-"i]);printf("\n") } }' $1
+
+# input=`cat /dev/stdin`
+# row=`echo $input |wc -l `
+# col=`echo $input |awk 'NR==1{print NF}'`
+# echo $input |awk -v row=$row -v col=$col '{for(i=1;i<=NF;i++)a[NR"-"i]=$i} END{ for(i=1;i<=col;i++){ for(j=1;j<=row;j++) printf("%s ",a[j"-"i]);printf("\n") } }'

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+table=$1
+
+sql=`cat /dev/stdin  |sed -e "/--+--/d"  -e "s/ *| */,/g" -e "s/^ *,//g" -e "s/, *$//g"  -e "1,1s/^/insert into $table (/g" -e "1,1s/$/) values/g" -e "3,\\\$s/[^,]\+/'&'/g" -e "3,\\\$s/^/(/g" -e "3,\\\$s/$/)/g" |sed -e "s/) (/), (/g" -e "s/,,/,'',/g" `
+
+echo $sql
+

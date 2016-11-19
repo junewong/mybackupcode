@@ -1,0 +1,13 @@
+#!/bin/bash
+
+filename=$1
+className=${filename%\.?*}
+shift
+
+classpath=`classpath`
+
+if [[ "$@" != "" ]]; then
+	classpath="$classpath:`echo $@ |sed 's/ /:/g'`"
+fi
+
+javac -cp "$classpath" $filename && java -cp "$classpath" $className

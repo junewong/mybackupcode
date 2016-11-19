@@ -1,0 +1,88 @@
+#!/bin/bash
+
+version="1.0"
+create_time="2012-12-29"
+
+replace=0
+from="gbk"
+to="utf-8"
+
+usage()
+{
+	cat <<EOF
+This script will convert gbk file to utf-8, or convert utf-8 to gbk, and can replace file directly.
+Usage:
+	$0 [options] filename
+	options:
+		-g or --gbk2utf8 : convert gbk 2 utf8, this is default option
+		-u or --utf8togbk : convert utf8 to gbk
+		-r or --replace  : replace the file, or will print on terminal
+		-h or --help : show the help
+		-v or --version : show the version
+EOF
+}
+
+usage_and_exit()
+{
+	usage
+	exit
+}
+
+# start
+if [ $# -lt 1 ];then
+	usage_and_exit
+fi
+
+while test $# -gt 0
+do
+	case $1 in
+		-r | --replace )
+			replace=1
+			;;
+		-g | --gbk2utf8 )
+			from="gbk"
+			to="utf-8"
+			;;
+		-u | --utf8togbk )
+			from="utf-8"
+			to="gbk"
+			;;
+		-h | --help )
+			usage_and_exit
+			;;
+		-v | --version )
+			echo "Version: $version"
+			echo "create time: $create_time"
+			exit
+			;;
+		-* )
+			echo "unknow option '$1' !"
+			usage_and_exit
+			;;
+		*)
+			break
+			;;
+	esac
+	shift
+done
+
+file=$1
+tmp_file="/tmp/_gbk_to_utf8_tmp_file.txt"
+
+if [ "$file" = "" ];then
+	echo "No file name got!"
+	usage_and_exit
+fi
+
+if ! [ -e $file ];then
+	echo "No file $file found!"
+	exit
+fi
+
+# convert
+if [ "$replace" = "1" ];then
+	iconv -c -f $from -t $to $file > $tmp_file
+	mv $tmp_file $file
+else
+	iconv -c -f $from -t $to $file
+fi

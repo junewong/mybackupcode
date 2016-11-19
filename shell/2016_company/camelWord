@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# 将骆驼写法"aaBbCc"转换为"aa_bb_cc"写法
+# 如果包含了“_”下划线，则将单词转换为骆驼写法
+
+
+sperater="_"
+word="$*"
+
+if [[ "$word" = "" ]]; then
+	word=`cat /dev/stdin`
+fi
+
+
+if [[ "${word/$sperater/}" != "$word" ]]; then
+	echo $word |sed "s/_\([a-z]\)/\U\1/g"
+else
+	echo $word |sed "s/[A-Z]/_\l&/g"
+fi

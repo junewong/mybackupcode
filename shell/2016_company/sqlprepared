@@ -1,0 +1,99 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * 用于将从日志中拿到的prepare statment sql语句，自动和最后一行的数据合并起来,打印可执行sql
+ * e.g.:
+ *    sqlprepared < /tmp/b.sql 
+ *
+ * @author junewong<wangzhu@ucweb.com>
+ * @date 2014-12-31
+ */
+
+$input = file_get_contents("php://stdin");
+
+// 判断是DAL的日志还是优盟的日志
+$isDal = false;
+
+// 最后一行作为数据
+$lines = explode("\n", $input);
+$dataLine = "";
+$lastLineNum = count($lines) - 1;
+
+$data = array();
+
+foreach( $lines as $line ) {
+	if ( preg_match( "/^\[20\d\d-/", $line) ) {
+		$isDal = true;
+		break;
+	}
+}
+
+
+if ( $isDal == false ) {
+
+	// 找最后一行作为数据
+	for ( ; $lastLineNum >= 0; $lastLineNum--) {
+		$dataLine = $lines[$lastLineNum];
+		unset( $lines[$lastLineNum] );
+		if ( !empty($dataLine) ) {
+			break;
+		}
+	}
+
+	// 其他则是sql内容
+	$sql = implode( "", $lines ) . "\n";
+
+
+	// 处理最后一行内容为数据数组
+	$dataLine = preg_replace("/^.*(Parameters|\[param\]) : /", "", $dataLine);
+	$dataLine = preg_replace("/\(\w+\)/", "", $dataLine);
+	$dataLine = str_replace(", ", ",", $dataLine);
+
+	$data = explode( ",",  $dataLine );
+
+} else {
+
+	$sqlLines = array();
+	foreach( $lines as $line ) {
+		if ( strpos($line, "[param]") > -1 ) {
+			$line = preg_replace("/^.*\[param\] : /", "", $line);
+			$data[] = $line;
+
+		} else {
+			$sqlLines[] = $line;
+		}
+
+		$sql = implode( "", $sqlLines ) . "\n";
+	}
+
+}
+
+// 是否是时间戳
+function isValidTimeStamp($timestamp)
+{
+	return preg_match( "/^[0-9]{10,13}$/", $timestamp );
+	/*
+    return ((string) (int) $timestamp === $timestamp) 
+        && ($timestamp <= PHP_INT_MAX)
+        && ($timestamp >= ~PHP_INT_MAX);
+	 */
+}
+
+// 填写prepare statment sql
+foreach ( $data as $var ) {
+	if ( isValidTimeStamp( $var ) ) {
+		$var = "'" . date( 'Y-m-d H:i:s', $var / 1000 ) . "'";
+
+	} else if ( !is_numeric($var) && strtolower($var) !== 'null' ) {
+		$var = "'$var'";
+
+	}  
+	$sql = preg_replace( "/\?/", $var, $sql, 1 );
+}
+
+
+print_r($sql);
+
+
+?>

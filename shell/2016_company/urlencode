@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+<?php
+$string = count($argv) <= 1 ? file_get_contents("php://stdin") : $argv[1];
+echo urlencode($string);
+?>

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+dir=$(dirname "$0")
+path=$(realpath $dir)
+
+#echo $path
+
+java -cp "$path" RegexMatch "$1" "$2" 
+

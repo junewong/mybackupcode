@@ -1,0 +1,10 @@
+#!/bin/bash
+
+command=$1
+
+if [[ "$command" = "close" ]]; then
+	sudo modprobe -r psmouse
+else
+	sudo modprobe -r psmouse
+	sudo modprobe psmouse proto=imps
+fi

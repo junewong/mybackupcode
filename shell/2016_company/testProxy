@@ -1,0 +1,13 @@
+#!/bin/bash
+
+proxyfile=$1
+
+url="https://www.baidu.com/s?wd=%E6%97%B6%E7%A9%BA%E7%8C%8E%E4%BA%BA"
+
+cat $proxyfile |while read line;do
+	echo "PROXY:$line"
+	html=`curl -L --max-time 5 --connect-timeout 5 -x "$line" "$url"`
+	echo $html
+	echo $html |grep -q
+	echo "RESULT:$?"
+done 

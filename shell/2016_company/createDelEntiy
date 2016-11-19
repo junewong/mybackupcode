@@ -1,0 +1,123 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * 用于根据mysql的表结构文本，生成Dal对应的代码
+ *
+ * 样例：
+ *
+ * | id        | bigint(10)   | NO   | PRI | NULL              |       |
+ * | task_id   | bigint(10)   | NO   | MUL | 0                 |       |
+ * | site      | varchar(255) | NO   |     |                   |       |
+ * | total     | int(11)      | NO   |     | 0                 |       |
+ * | rate      | float        | NO   |     | 0                 |       |
+ * | stat_time | timestamp    | NO   |     | CURRENT_TIMESTAMP |       |
+ *
+ * e.g.:
+ *      createDelEntiy < /tmp/b.sql 
+ *
+ * @author junewong<wangzhu@ucweb.com>
+ * @date 2015-06-11
+ */
+
+$input = file_get_contents("php://stdin");
+
+// 最后一行作为数据
+$lines = explode("\n", $input);
+
+$columns = array();
+
+foreach( $lines as $line ) {
+	if ( trim($line) == '' ) {
+		continue;
+	}
+	$line = preg_replace( "/^\|/", "", $line );
+	$line = preg_replace( "/\s+/", "", $line );
+	$temp = explode( "|", $line );
+	$column = array();
+	$column['name'] = strtolower( $temp[0] );
+	$column['type'] = strtolower( preg_replace( "/\(\d+\)/", "", $temp[1] ) );
+	$column['isPrimary'] = $temp[3] == "PRI" ? true : false;
+	$columns[] = $column;
+}
+
+function getDalType( $type ) {
+	$map = array( 
+		"bigint"      =>   "BigInt",
+		"timestamp"   =>   "DateTime",
+		"date"        =>   "DateTime",
+		"datetime"    =>   "DateTime",
+		"int"         =>   "Int",
+		"float"       =>   "Float",
+		"text"        =>   "Text",
+		"tinyint"     =>   "TinyInt",
+		"varchar"     =>   "Varchar",
+		"char"        =>   "Char",
+		"double"      =>   "Double",
+	);
+	return $map[$type];
+}
+
+function getJavaType( $type ) {
+	$map = array( 
+		"bigint"      =>   "Long",
+		"timestamp"   =>   "Long",
+		"date"        =>   "Long",
+		"datetime"    =>   "Long",
+		"int"         =>   "Integer",
+		"float"       =>   "Float",
+		"text"        =>   "String",
+		"tinyint"     =>   "Integer",
+		"varchar"     =>   "String",
+		"char"        =>   "String",
+		"double"      =>   "Double",
+	);
+	return $map[$type];
+}
+
+function getCamelWord( $longWord ) {
+	$words = explode( "_", $longWord );
+	$result = array();
+	$i = 0;
+	foreach ($words as $word) {
+		$word = strtolower( $word );
+		if ( $i == 0 )  {
+			$result[] = lcfirst( $word );
+		} else {
+			$result[] = ucfirst( $word );
+		}
+		$i++;
+	}
+
+	return implode( "", $result );
+}
+
+function createRow( $column ) {
+
+	$name = $column['name'];
+	$camelName = getCamelWord( $name );
+	$dalType = getDalType( $column['type'] );
+	$javaType = getJavaType( $column['type'] );
+
+	$text = '';
+
+	if ( $column['isPrimary'] ) {
+		$text .= "@Id()\n";
+		$text .= "@GeneratedValue(generationType = GenerationType.Auto)\n";
+	}
+
+	$text .= "@Column(name = \"$name\", type = DbType.$dalType)\n";
+	$text .= "private $javaType $camelName;\n";
+
+	return $text;
+
+}
+
+
+foreach ($columns as $column) {
+	$text = createRow( $column );
+	echo preg_replace( "/^/m", "\t", $text ) ;
+	echo "\n";
+}
+
+?>

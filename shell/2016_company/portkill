@@ -1,0 +1,24 @@
+#!/bin/bash
+
+port $1
+
+pid=`portps $1`
+
+if [[ "$pid" = "" ]]; then
+	exit 1;
+fi
+
+echo "PID: $pid"
+echo "Kill it? [y/n]"
+
+read answer
+if [[ "$answer" = "y"  ]]; then
+	kill $pid
+	sleep 1
+	if [ "`port $1`" = "" ]; then
+		echo "Done"
+	else
+		kill -9 $pid
+		echo "Done(-9)"
+	fi
+fi

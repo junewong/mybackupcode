@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#sudo /usr/sbin/tcpdump -i wlan0 -A -s0 host localhost and port 80
+#sudo /usr/sbin/tcpdump -i eth0 -A host localhost and port 80
+#sudo /usr/sbin/tcpdump -i wlan0 -A port 80
+sudo /usr/sbin/tcpdump -i eth0 -A  port 80

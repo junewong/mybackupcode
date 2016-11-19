@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+if ( count($argv) <= 1 ) {
+	$timstamp = file_get_contents("php://stdin");
+} else {
+	$timstamp = $argv[1];
+	if ( $timstamp == "-d" ) {
+		echo time() . "\n";
+		exit();
+	}
+}
+
+
+if ( strlen($timstamp) > 10 ) {
+	$timstamp /= 1000;
+}
+
+echo date('Y-m-d H:i:s', $timstamp) . "\n";
+?>

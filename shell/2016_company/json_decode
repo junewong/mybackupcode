@@ -1,0 +1,254 @@
+#!/usr/bin/env php
+<?php
+	$script_name = pop();
+
+	$json_path = "";
+	$content = "";
+	$param = "";
+	$search_query = "";
+	$print_template = "";
+	$executeCode = "";
+	$silent = false;
+
+	// operations:
+	while (count($argv) >= 1) {
+		$param = pop();
+		if ($param == "-p" || $param == "--path") {
+			$json_path = pop();
+
+		} else if ($param == "-s" || $param == "--search") {
+			$search_query = pop();
+
+		} else if ($param == "-t" || $param == "--template") {
+			$print_template = pop();
+
+		} else if ($param == "-e" || $param == "--execute") {
+			$executeCode = pop();
+
+		} else if ($param == "-q" || $param == "--silent") {
+			$silent = true;
+
+		} else if ($param == "-h" || $param == "--help") {
+			help();
+			exit();
+
+		} else {
+			$request = $param;
+		}
+	}
+
+	if ($request == "") {
+		$content = file_get_contents("php://stdin");
+
+	} else {
+		if (preg_match("/^http/", $request) || !preg_match("/^(\{|\[)/", $request)) {
+			$content = file_get_contents($request);
+		} else {
+			$content = $request;
+		}
+
+	}
+
+	$output = array();
+	$decode = json_decode($content);
+
+	// for finding path:
+	if ($json_path != "") {
+		$json_path = preg_replace("/^\\//", "", $json_path);
+		$json_path = preg_replace("/\\/$/", "", $json_path);
+		$pathParams = explode("/", $json_path);
+		findPathValue($decode, $pathParams, "");
+	}
+
+	// search:
+	if ($search_query != "") {
+		search();
+	}
+
+	if ($executeCode != "") {
+		execute();
+	}
+
+	// print result:
+	if ($search_query == "" && $print_template == "" && empty($output)) {
+		print_r($decode);
+	} else {
+		if ($print_template == "") {
+			printOutput();
+		} else {
+			if ($search_query == "" && empty($output)) {
+				$output = array($decode);
+			}
+			printOutputWithTemplate();
+		}
+	}
+
+
+	//-----------------------------------------------------
+	// functions:
+	//=====================================================
+
+	// pop arguments:
+	function pop()
+	{
+		global $argv;
+		return array_shift($argv);
+	}
+
+	function findPathValue($value, $paths, $key)
+	{
+		global $output;
+		if (count($paths) == 0) {
+			if (is_array($value)) {
+				foreach ($value as $subValue) {
+					$output[] = $subValue;
+				}
+				
+			} else {
+				$output[] = $value;
+			}
+
+		} else {
+			if (is_array($value)) {
+				foreach ($value as $subValue) {
+					findPathValue($subValue, $paths, $key);
+				}
+			} else {
+				$key = array_shift($paths);
+				$value = $value->$key;
+				findPathValue($value, $paths, $key);
+			}
+		}
+
+	}
+
+	function search()
+	{
+		global $output, $decode;
+		$data = array();
+		if (!empty($output)) {
+			$data = $output;
+		} else {
+			$data = is_array($decode) ? $decode : array($decode);
+		}
+
+		$result = array();
+		$queries = getSearchQuery();
+
+		$condition = count($queries);
+		foreach ($data as $object) {
+			$match = 0;
+			foreach ($queries as $key => $value) {
+				if ($object->$key == $value) {
+					$match ++;
+				}
+			}
+			if ($match == $condition) {
+				$result[] = $object;
+			}
+		}
+
+		$output = $result;
+	}
+
+	function getSearchQuery()
+	{
+		global $search_query;
+		$search_query = preg_replace("/ *; */", ";", $search_query);
+		$queries = array();
+		$pairs = explode(";", $search_query);
+		foreach ($pairs as $pair) {
+			$parse = explode("=", $pair);
+			$key = $parse[0];
+			$value = $parse[1];
+			$queries[$key] = $value;
+		}
+		return $queries;
+	}
+
+	function execute()
+	{
+		global $output, $decode, $executeCode;
+
+		$a = array();
+		if (!empty($output)) {
+			$a = $output;
+		} else {
+			$a = is_array($decode) ? $decode : array($decode);
+		}
+
+		$result = array();
+
+		foreach ($a as $o) {
+			eval($executeCode);
+		}
+	}
+
+	function getStringWithTemplate($object, $templates)
+	{
+		global $print_template;
+		$result = $print_template;
+		foreach ($templates as $key) {
+			$result = str_replace("{".$key."}", $object->$key, $result);
+		}
+		return $result;
+	}
+
+	function getTemplateKeys( $template )
+	{
+		preg_match_all("/\\{(\w+)\\}/", $template, $matchs);
+		return array_unique($matchs[1]);
+	}
+
+	function printOutput()
+	{
+		global $output, $silent;
+		if ( $silent ) {
+			return;
+		}
+
+		foreach ($output as $value) {
+			print_r($value);
+			echo "\n";
+		}
+	}
+
+	function printOutputWithTemplate()
+	{
+		global $output, $print_template, $silent;
+		if ( $silent ) {
+			return;
+		}
+		$templateKeys = getTemplateKeys($print_template);
+		foreach ($output as $object) {
+			$str = getStringWithTemplate($object, $templateKeys);
+			print_r($str);
+			echo "\n";
+		}
+	}
+
+	// show help
+	function help()
+	{
+		echo <<<END
+treat the json file string.
+e.g.:
+	json_decode filename.json
+	cat filename.json |json_decode
+	json_decode "http://xxx.com/filename.json"
+	json_decode -p "/songs/title" filename.json
+	json_decode -p "/songs" -s "id=5;title=ABC" filename.json
+	json_decode -p "/songs" -t "song_{title}_{id}.mp3" filename.json
+	json_decode -p "/songs" -e "\\\$o->hashName=md5(\\\$o->filename);" -t "md5:{hashName}" filename.json
+
+-p, --path 		: the path of json object.
+-s, --search 	: search object with 'key=value'.
+-t, --template 	: output stirng with template.
+-q, --silent 	: do not output source string.
+-e, --execute 	: excute the code for each, some variable can be user, '\\\$o': current object, '\\\$a': array, '\\\$k': the key.
+-h, --help 		: show this help content.
+
+END;
+	}
+
+?>
