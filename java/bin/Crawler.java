@@ -45,7 +45,7 @@ public class Crawler {
 		String html = "";
 
 		try {
-			doc = Jsoup.connect( url ).timeout( 7000 ).userAgent(PC_USER_AGENT ).get();
+			doc = Jsoup.connect( url ).timeout( 9000 ).userAgent(PC_USER_AGENT ).get();
 			if ( null == regex || "".equals( regex ) ) {
 				html = doc.outerHtml();
 			} else {
