@@ -3,6 +3,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * 小工具，命令行下用jsoup筛选信息
  *
@@ -22,16 +26,25 @@ public class Crawler {
 			System.exit( 1 );
 		}
 
+		int offset = 0;
+		boolean isFromStdIn = false;
+
 		String url = args[0];
 		String regex = null;
 		String attr = null;
-
-		if ( args.length >= 2 ) {
-			regex = args[1];
+		
+		// 如果不是url做第一个参数，说明是从输入流来的
+		if ( ! url.startsWith( "http" )  ) {
+			offset = -1;
+			isFromStdIn = true;
 		}
 
-		if ( args.length >= 3 ) {
-			attr = args[2];
+		if ( args.length >= 2 + offset ) {
+			regex = args[1 + offset ];
+		}
+
+		if ( args.length >= 3 + offset ) {
+			attr = args[2 + offset ];
 		}
 
 		/*
@@ -45,7 +58,13 @@ public class Crawler {
 		String html = "";
 
 		try {
-			doc = Jsoup.connect( url ).timeout( 5000 ).userAgent(PC_USER_AGENT ).get();
+			if ( isFromStdIn ) {
+				String input = readStdIn();
+				doc = Jsoup.parse( input );
+			} else {
+				doc = Jsoup.connect( url ).timeout( 5000 ).userAgent(PC_USER_AGENT ).get();
+			}
+
 			if ( null == regex || "".equals( regex ) ) {
 				html = doc.outerHtml();
 			} else {
@@ -123,5 +142,38 @@ public class Crawler {
 		String value = attr.equals( "text()" ) ? element.text() : element.attr( attr );
 		return value;
 	}
-	
+
+    public static String readStdIn() {
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new InputStreamReader(System.in));
+
+			StringBuffer sb = new StringBuffer();
+			String content = null;
+            while ( true  ) {
+				content = br.readLine();
+				if ( null == content ) {
+					break;
+				}
+				sb.append( content );
+            }
+			return sb.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+		return "";
+    }
+
 }
